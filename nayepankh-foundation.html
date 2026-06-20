@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NayePankh Foundation — Giving Wings to the Underprivileged</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --sky:      #4A9FD4;
+    --sky-lt:   #7BBFE6;
+    --saffron:  #F4A83A;
+    --saffron-dk: #D4861A;
+    --navy:     #0D1B2A;
+    --navy-mid: #1A2E42;
+
+    --bg:       #FAFAF7;
+    --bg-card:  #FFFFFF;
+    --bg-muted: #F0F4F8;
+    --text:     #1C1C1C;
+    --text-2:   #4A5568;
+    --text-3:   #718096;
+    --border:   #E2E8F0;
+    --shadow:   0 4px 24px rgba(0,0,0,.08);
+    --radius:   16px;
+    --transition: .35s cubic-bezier(.4,0,.2,1);
+  }
+  [data-theme="dark"] {
+    --bg:       #0D1B2A;
+    --bg-card:  #1A2E42;
+    --bg-muted: #142334;
+    --text:     #F0F4F8;
+    --text-2:   #A0B4C8;
+    --text-3:   #6B8AA0;
+    --border:   #2A3F55;
+    --shadow:   0 4px 24px rgba(0,0,0,.35);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: background var(--transition), color var(--transition);
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw;
+    height: 68px;
+    background: rgba(250,250,247,.85);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    transition: background var(--transition), border-color var(--transition);
+  }
+  [data-theme="dark"] nav {
+    background: rgba(13,27,42,.88);
+  }
+  .nav-brand {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; font-weight: 700;
+    color: var(--sky);
+  }
+  .nav-brand .wing-icon { width: 32px; height: 32px; }
+  .nav-links {
+    display: flex; align-items: center; gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: .875rem; font-weight: 500;
+    color: var(--text-2);
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--sky); }
+  .nav-right { display: flex; align-items: center; gap: 1rem; }
+
+  .btn-donate {
+    background: var(--saffron);
+    color: #fff;
+    border: none; border-radius: 50px;
+    padding: .5rem 1.25rem;
+    font-size: .875rem; font-weight: 600;
+    cursor: pointer;
+    transition: background .2s, transform .15s;
+  }
+  .btn-donate:hover { background: var(--saffron-dk); transform: translateY(-1px); }
+
+  .theme-toggle {
+    background: var(--bg-muted);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    width: 38px; height: 38px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background var(--transition), border-color var(--transition);
+    font-size: 1.1rem;
+  }
+
+  .hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    cursor: pointer; background: none; border: none; padding: 4px;
+  }
+  .hamburger span {
+    display: block; width: 22px; height: 2px;
+    background: var(--text); border-radius: 2px;
+    transition: var(--transition);
+  }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    nav.open .nav-links {
+      display: flex; flex-direction: column; position: absolute;
+      top: 68px; left: 0; right: 0;
+      background: var(--bg-card);
+      padding: 1.5rem 5vw 2rem;
+      border-bottom: 1px solid var(--border);
+      gap: 1.25rem;
+    }
+  }
+
+  .hero {
+    min-height: 100svh;
+    display: flex; align-items: center;
+    padding: 100px 5vw 60px;
+    background: linear-gradient(135deg, var(--bg) 0%, var(--bg-muted) 100%);
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(74,159,212,.12) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 1200px; width: 100%; margin: auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: center;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: rgba(74,159,212,.12);
+    color: var(--sky);
+    border: 1px solid rgba(74,159,212,.3);
+    border-radius: 50px;
+    padding: .35rem .9rem;
+    font-size: .78rem; font-weight: 600; letter-spacing: .04em;
+    text-transform: uppercase; margin-bottom: 1.25rem;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    line-height: 1.12; font-weight: 900;
+    margin-bottom: 1.25rem;
+  }
+  .hero h1 em { color: var(--sky); font-style: normal; }
+  .hero p {
+    font-size: 1.05rem; color: var(--text-2);
+    line-height: 1.7; max-width: 480px;
+    margin-bottom: 2rem;
+  }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--sky);
+    color: #fff;
+    border: none; border-radius: 50px;
+    padding: .75rem 1.75rem;
+    font-size: 1rem; font-weight: 600;
+    cursor: pointer;
+    transition: background .2s, transform .15s, box-shadow .2s;
+    box-shadow: 0 4px 16px rgba(74,159,212,.35);
+  }
+  .btn-primary:hover { background: #3588bb; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(74,159,212,.4); }
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1.5px solid var(--border);
+    border-radius: 50px;
+    padding: .75rem 1.75rem;
+    font-size: 1rem; font-weight: 500;
+    cursor: pointer;
+    transition: border-color .2s, color .2s, transform .15s;
+  }
+  .btn-outline:hover { border-color: var(--sky); color: var(--sky); transform: translateY(-2px); }
+
+  .wings-wrap {
+    display: flex; justify-content: center; align-items: center;
+    position: relative;
+  }
+  .wings-svg {
+    width: min(420px, 100%);
+    animation: float 5s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+  }
+  .wing-left, .wing-right {
+    transform-origin: center;
+    animation: flap 3.2s ease-in-out infinite;
+  }
+  .wing-right { animation-delay: .15s; }
+  @keyframes flap {
+    0%,100% { transform: scaleX(1) rotate(0deg); }
+    50% { transform: scaleX(.88) rotate(-4deg); }
+  }
+
+  @media (max-width: 768px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .wings-wrap { order: -1; }
+    .wings-svg { width: 220px; }
+  }
+  .stats-bar {
+    background: var(--sky);
+    padding: 2.5rem 5vw;
+  }
+  .stats-inner {
+    max-width: 1000px; margin: auto;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem; text-align: center;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem; font-weight: 900; color: #fff;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: .8rem; color: rgba(255,255,255,.8);
+    margin-top: .4rem; font-weight: 500; letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  @media (max-width: 600px) {
+    .stats-inner { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  section { padding: 5rem 5vw; }
+  .section-inner { max-width: 1200px; margin: auto; }
+  .section-eyebrow {
+    display: inline-block;
+    font-size: .75rem; font-weight: 600; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--sky);
+    margin-bottom: .75rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-weight: 700; line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .section-sub {
+    color: var(--text-2); font-size: 1rem; line-height: 1.7;
+    max-width: 560px;
+  }
+  .section-header { margin-bottom: 3rem; }
+
+  .programs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+  .prog-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    cursor: default;
+  }
+  .prog-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+    border-color: var(--sky);
+  }
+  .prog-icon {
+    width: 54px; height: 54px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem;
+    margin-bottom: 1.25rem;
+  }
+  .prog-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; font-weight: 700;
+    margin-bottom: .6rem;
+  }
+  .prog-card p { color: var(--text-2); font-size: .9rem; line-height: 1.65; }
+
+  /* ── ABOUT SPLIT ──────────────────────────────── */
+  .about-section { background: var(--bg-muted); }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: center;
+  }
+  .about-visual {
+    background: linear-gradient(145deg, var(--sky) 0%, var(--navy-mid) 100%);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    text-align: center; color: #fff;
+    position: relative; overflow: hidden;
+  }
+  .about-visual::before {
+    content: '🕊️';
+    position: absolute; top: -20px; right: -10px;
+    font-size: 8rem; opacity: .1;
+  }
+  .about-visual-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem; font-weight: 900; line-height: 1;
+  }
+  .about-visual-sub { font-size: .9rem; opacity: .85; margin-top: .5rem; }
+  .about-badges { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 2rem; }
+  .badge {
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 50px; padding: .3rem .9rem;
+    font-size: .78rem; font-weight: 500; color: #fff;
+  }
+  .about-text p { color: var(--text-2); line-height: 1.75; margin-bottom: 1rem; font-size: .975rem; }
+  .about-text p:last-child { margin-bottom: 0; }
+
+  @media (max-width: 768px) {
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+  }
+
+  /* ── VOLUNTEER ────────────────────────────────── */
+  .volunteer-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2rem; align-items: start;
+  }
+  .volunteer-form-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2.5rem;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .form-field { display: flex; flex-direction: column; gap: .4rem; margin-bottom: 1rem; }
+  .form-field label { font-size: .8rem; font-weight: 600; color: var(--text-2); }
+  .form-field input, .form-field select, .form-field textarea {
+    background: var(--bg-muted);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: .65rem 1rem;
+    font-size: .9rem; color: var(--text);
+    font-family: 'Inter', sans-serif;
+    transition: border-color .2s, box-shadow .2s;
+    outline: none;
+  }
+  .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+    border-color: var(--sky);
+    box-shadow: 0 0 0 3px rgba(74,159,212,.15);
+  }
+  .form-field textarea { resize: vertical; min-height: 90px; }
+  .volunteer-info h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; margin-bottom: 1rem;
+  }
+  .volunteer-info p { color: var(--text-2); line-height: 1.75; margin-bottom: 1.5rem; font-size: .95rem; }
+  .perks { list-style: none; display: flex; flex-direction: column; gap: .75rem; }
+  .perks li {
+    display: flex; gap: .75rem; align-items: flex-start;
+    color: var(--text-2); font-size: .9rem; line-height: 1.6;
+  }
+  .perk-dot {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(74,159,212,.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .7rem; flex-shrink: 0; margin-top: 1px;
+    color: var(--sky);
+  }
+  @media (max-width: 768px) {
+    .volunteer-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  /* ── DONATE BANNER ────────────────────────────── */
+  .donate-banner {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    color: #fff; text-align: center;
+    padding: 5rem 5vw;
+  }
+  [data-theme="dark"] .donate-banner {
+    background: linear-gradient(135deg, #060f17 0%, #0D1B2A 100%);
+  }
+  .donate-banner h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.75rem, 4vw, 2.8rem); font-weight: 900;
+    margin-bottom: 1rem;
+  }
+  .donate-banner h2 em { color: var(--saffron); font-style: normal; }
+  .donate-banner p { color: rgba(255,255,255,.7); max-width: 520px; margin: 0 auto 2rem; line-height: 1.7; }
+  .btn-saffron {
+    background: var(--saffron); color: #fff;
+    border: none; border-radius: 50px;
+    padding: .85rem 2.25rem;
+    font-size: 1rem; font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(244,168,58,.4);
+    transition: background .2s, transform .15s, box-shadow .2s;
+  }
+  .btn-saffron:hover { background: var(--saffron-dk); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(244,168,58,.5); }
+  .tax-note { font-size: .78rem; color: rgba(255,255,255,.45); margin-top: 1rem; }
+
+  /* ── FOOTER ───────────────────────────────────── */
+  footer {
+    background: var(--navy);
+    color: rgba(255,255,255,.6);
+    padding: 3rem 5vw 2rem;
+  }
+  [data-theme="dark"] footer { background: #070f19; }
+  .footer-inner {
+    max-width: 1200px; margin: auto;
+    display: grid; grid-template-columns: 2fr 1fr 1fr;
+    gap: 3rem; margin-bottom: 2rem;
+  }
+  .footer-brand { color: var(--sky); font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; margin-bottom: .75rem; }
+  .footer-desc { font-size: .85rem; line-height: 1.7; }
+  .footer-col h4 { color: #fff; font-size: .85rem; font-weight: 600; margin-bottom: 1rem; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+  .footer-col ul li a { font-size: .85rem; transition: color .2s; }
+  .footer-col ul li a:hover { color: var(--sky); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,.1);
+    padding-top: 1.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: .75rem;
+    font-size: .8rem;
+  }
+  @media (max-width: 768px) {
+    .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+  }
+
+  /* ── SCROLL REVEAL ────────────────────────────── */
+  .reveal {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity .65s cubic-bezier(.4,0,.2,1), transform .65s cubic-bezier(.4,0,.2,1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: .1s; }
+  .reveal-delay-2 { transition-delay: .2s; }
+  .reveal-delay-3 { transition-delay: .3s; }
+  .reveal-delay-4 { transition-delay: .4s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .wings-svg { animation: none; }
+    .wing-left, .wing-right { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+
+<nav id="mainNav">
+  <div class="nav-brand">
+    <svg class="wing-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 32 C10 28 2 20 4 10 C10 14 16 18 20 24 C24 18 30 14 36 10 C38 20 30 28 20 32Z" fill="#4A9FD4" opacity=".9"/>
+      <ellipse cx="20" cy="33" rx="3" ry="2" fill="#F4A83A"/>
+    </svg>
+    NayePankh Foundation
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#programs">Programs</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#volunteer">Volunteer</a></li>
+    <li><a href="#donate">Donate</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+    <button class="btn-donate" onclick="document.getElementById('donate').scrollIntoView({behavior:'smooth'})">Donate Now</button>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-tag">
+         UP Govt. &amp; 80G Registered NGO
+      </div>
+      <h1>Giving <em>New Wings</em> to Those Who Need It Most</h1>
+      <p>India's one of the largest student-led NGOs — uplifting underprivileged communities through education, nutrition, menstrual hygiene, and compassion.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="document.getElementById('programs').scrollIntoView({behavior:'smooth'})">Our Programs</button>
+        <button class="btn-outline" onclick="document.getElementById('volunteer').scrollIntoView({behavior:'smooth'})">Join Us</button>
+      </div>
+    </div>
+    <div class="wings-wrap">
+      <svg class="wings-svg" viewBox="0 0 420 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Glow -->
+        <ellipse cx="210" cy="230" rx="110" ry="30" fill="#4A9FD4" opacity=".08"/>
+        <!-- Left wing -->
+        <g class="wing-left">
+          <path d="M210 175 C170 155 100 130 50 150 C80 165 130 170 160 185 C140 175 105 178 75 195 C105 200 150 192 175 200 C155 195 130 205 110 222 C140 220 168 210 185 215 L210 220Z" fill="#4A9FD4" opacity=".85"/>
+          <path d="M210 175 C185 160 145 148 105 155 C130 163 158 168 175 178Z" fill="#7BBFE6" opacity=".6"/>
+        </g>
+        <!-- Right wing -->
+        <g class="wing-right" style="transform: scaleX(-1); transform-origin: 210px 175px;">
+          <path d="M210 175 C170 155 100 130 50 150 C80 165 130 170 160 185 C140 175 105 178 75 195 C105 200 150 192 175 200 C155 195 130 205 110 222 C140 220 168 210 185 215 L210 220Z" fill="#4A9FD4" opacity=".85"/>
+          <path d="M210 175 C185 160 145 148 105 155 C130 163 158 168 175 178Z" fill="#7BBFE6" opacity=".6"/>
+        </g>
+        <!-- Bird body -->
+        <ellipse cx="210" cy="200" rx="22" ry="30" fill="#F4A83A" opacity=".95"/>
+        <ellipse cx="210" cy="185" rx="14" ry="14" fill="#F4A83A"/>
+        <!-- Beak -->
+        <path d="M222 183 L232 186 L222 189Z" fill="#D4861A"/>
+        <!-- Eye -->
+        <circle cx="218" cy="183" r="2.5" fill="#1C1C1C"/>
+        <circle cx="219" cy="182.2" r=".9" fill="#fff"/>
+        <!-- Tail -->
+        <path d="M200 228 C205 240 210 245 215 240 C210 238 208 235 210 232Z" fill="#D4861A" opacity=".9"/>
+        <!-- Stars/sparkles -->
+        <circle cx="80" cy="100" r="3" fill="#F4A83A" opacity=".5">
+          <animate attributeName="opacity" values=".3;.8;.3" dur="2.5s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="340" cy="90" r="2" fill="#4A9FD4" opacity=".4">
+          <animate attributeName="opacity" values=".2;.7;.2" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="60" cy="200" r="2.5" fill="#7BBFE6" opacity=".35">
+          <animate attributeName="opacity" values=".2;.6;.2" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="360" cy="190" r="3" fill="#F4A83A" opacity=".4">
+          <animate attributeName="opacity" values=".3;.7;.3" dur="3.5s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="reveal">
+      <div class="stat-num">2L+</div>
+      <div class="stat-label">Lives Impacted</div>
+    </div>
+    <div class="reveal reveal-delay-1">
+      <div class="stat-num">500+</div>
+      <div class="stat-label">Active Volunteers</div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div class="stat-num">5+</div>
+      <div class="stat-label">Cities</div>
+    </div>
+    <div class="reveal reveal-delay-3">
+      <div class="stat-num">80G</div>
+      <div class="stat-label">Tax Exempted</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRAMS -->
+<section id="programs">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">What We Do</span>
+      <h2 class="section-title">Programs That Transform Lives</h2>
+      <p class="section-sub">From street classrooms to menstrual hygiene drives — each initiative is hands-on, volunteer-run, and built for real, lasting impact.</p>
+    </div>
+    <div class="programs-grid">
+      <div class="prog-card reveal">
+        <div class="prog-icon" style="background: rgba(74,159,212,.12); color: #4A9FD4;">📚</div>
+        <h3>Pathshala — Mobile Education</h3>
+        <p>Street-side tutoring units staffed by student volunteers, delivering basic literacy, stationery, and textbooks to children of daily-wage workers.</p>
+      </div>
+      <div class="prog-card reveal reveal-delay-1">
+        <div class="prog-icon" style="background: rgba(244,168,58,.12); color: #D4861A;">🍱</div>
+        <h3>Hunger Relief</h3>
+        <p>Hot nutritional meals distributed daily to pavement dwellers, along with warm winter blankets and clothing during the cold months.</p>
+      </div>
+      <div class="prog-card reveal reveal-delay-2">
+        <div class="prog-icon" style="background: rgba(180,100,200,.12); color: #9B59B6;">🌸</div>
+        <h3>Menstrual Hygiene</h3>
+        <p>Biodegradable sanitary napkins distributed directly to women in remote settlements, paired with awareness campaigns on personal hygiene.</p>
+      </div>
+      <div class="prog-card reveal reveal-delay-3">
+        <div class="prog-icon" style="background: rgba(80,200,120,.12); color: #27AE60;">🐾</div>
+        <h3>Animal Welfare</h3>
+        <p>Extending compassion beyond humans — feeding stray animals and supporting the welfare of community animals across our operating cities.</p>
+      </div>
+      <div class="prog-card reveal reveal-delay-1">
+        <div class="prog-icon" style="background: rgba(231,76,60,.12); color: #E74C3C;">🏥</div>
+        <h3>Health &amp; Hygiene Kits</h3>
+        <p>Personal care products delivered directly to women and children in underserved communities who lack access to basic healthcare supplies.</p>
+      </div>
+      <div class="prog-card reveal reveal-delay-2">
+        <div class="prog-icon" style="background: rgba(52,152,219,.12); color: #2980B9;">🤝</div>
+        <h3>Community Internships</h3>
+        <p>Structured volunteer internships for students in education, HR, tech, and social impact — building the next generation of changemakers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-visual reveal">
+        <div class="about-visual-num">2020</div>
+        <div class="about-visual-sub">Born during the COVID-19 lockdown</div>
+        <div class="about-badges">
+          <span class="badge">UP Govt. Registered</span>
+          <span class="badge">12A Certified</span>
+          <span class="badge">80G Exempted</span>
+          <span class="badge">NITI Aayog Affiliated</span>
+          <span class="badge">Indian Society Act 1860</span>
+        </div>
+      </div>
+      <div class="about-text reveal reveal-delay-2">
+        <span class="section-eyebrow">Our Story</span>
+        <h2 class="section-title">Youth-Led. Community-Rooted. Impact-Driven.</h2>
+        <p>NayePankh was born during India's toughest lockdown — when a group of young people decided that waiting wasn't an option. What began as emergency relief quickly grew into one of the country's largest student-led organizations.</p>
+        <p>Operating in Kanpur, Ghaziabad, and beyond, our volunteers — many still in school or college — show up every day to serve communities that have been left behind. We believe service to humankind is service to the divine.</p>
+        <p>Our name says it all: <em>Naye Pankh</em> — new wings. We exist to help people rise.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VOLUNTEER -->
+<section id="volunteer">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Join the Mission</span>
+      <h2 class="section-title">Become a Volunteer</h2>
+      <p class="section-sub">Whether you have an hour or a hundred — there's a role for you. Bring your skills, your time, and your heart.</p>
+    </div>
+    <div class="volunteer-grid">
+      <div class="volunteer-info reveal">
+        <h3>Why Volunteer With Us?</h3>
+        <p>When you join NayePankh, you don't just help others — you grow. Our volunteers gain real-world experience, build leadership skills, and become part of a family united by purpose.</p>
+        <ul class="perks">
+          <li><span class="perk-dot">✓</span>Internship certificate &amp; letter of recommendation</li>
+          <li><span class="perk-dot">✓</span>Hands-on community work from day one</li>
+          <li><span class="perk-dot">✓</span>Network with like-minded youth across India</li>
+          <li><span class="perk-dot">✓</span>Roles in education, tech, HR, content, and more</li>
+          <li><span class="perk-dot">✓</span>Be featured in media coverage &amp; campaigns</li>
+        </ul>
+      </div>
+      <div class="volunteer-form-card reveal reveal-delay-2">
+        <div class="form-row">
+          <div class="form-field">
+            <label>First Name</label>
+            <input type="text" placeholder="Priya"/>
+          </div>
+          <div class="form-field">
+            <label>Last Name</label>
+            <input type="text" placeholder="Sharma"/>
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Email Address</label>
+          <input type="email" placeholder="priya@email.com"/>
+        </div>
+        <div class="form-field">
+          <label>Phone Number</label>
+          <input type="tel" placeholder="+91 98765 43210"/>
+        </div>
+        <div class="form-field">
+          <label>Area of Interest</label>
+          <select>
+            <option>Education &amp; Pathshala</option>
+            <option>Hunger Relief</option>
+            <option>Menstrual Hygiene</option>
+            <option>Technology &amp; AI</option>
+            <option>Human Resources</option>
+            <option>Content &amp; Social Media</option>
+            <option>Animal Welfare</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Tell us about yourself</label>
+          <textarea placeholder="I'm passionate about..."></textarea>
+        </div>
+        <button class="btn-primary" style="width:100%; border-radius: 10px;">Submit Application</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DONATE BANNER -->
+<section class="donate-banner" id="donate">
+  <div class="section-inner">
+    <h2 class="reveal">Every Rupee <em>Gives Wings</em> to Someone</h2>
+    <p class="reveal reveal-delay-1">Donations to NayePankh Foundation are eligible for 50% tax deduction under Section 80G. Your contribution directly funds meals, education, and healthcare for thousands.</p>
+    <button class="btn-saffron reveal reveal-delay-2">Donate Today →</button>
+    <p class="tax-note reveal reveal-delay-3">80G Tax Exemption · Transparent Utilisation · UP Govt. Registered</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">🕊️ NayePankh Foundation</div>
+      <p class="footer-desc">A UP Government registered NGO uplifting underprivileged communities through education, nutrition, hygiene, and community empowerment.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#programs">Programs</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#volunteer">Volunteer</a></li>
+        <li><a href="#donate">Donate</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+918318500748">+91 83185 00748</a></li>
+        <li><a href="https://nayepankh.com" target="_blank">nayepankh.com</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">LinkedIn</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 NayePankh Foundation. All rights reserved.</span>
+    <span>Kanpur, Uttar Pradesh, India</span>
+  </div>
+</footer>
+
+<script>
+
+  const toggle = document.getElementById('themeToggle');
+  const html = document.documentElement;
+  const saved = localStorage.getItem('np-theme') || 'light';
+  html.setAttribute('data-theme', saved);
+  toggle.textContent = saved === 'dark' ? '☀️' : '🌙';
+
+  toggle.addEventListener('click', () => {
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    toggle.textContent = next === 'dark' ? '☀️' : '🌙';
+    localStorage.setItem('np-theme', next);
+  });
+
+  const ham = document.getElementById('hamburger');
+  const nav = document.getElementById('mainNav');
+  ham.addEventListener('click', () => nav.classList.toggle('open'));
+  document.querySelectorAll('.nav-links a').forEach(a =>
+    a.addEventListener('click', () => nav.classList.remove('open'))
+  );
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+
+  function animateCounters() {
+    document.querySelectorAll('.stat-num').forEach(el => {
+      const text = el.textContent;
+      if (!text.match(/\d/)) return;
+      
+      el.style.transform = 'scale(1.08)';
+      setTimeout(() => { el.style.transition = 'transform .4s'; el.style.transform = 'scale(1)'; }, 100);
+    });
+  }
+  const statsObserver = new IntersectionObserver(e => {
+    if (e[0].isIntersecting) { animateCounters(); statsObserver.disconnect(); }
+  }, { threshold: 0.5 });
+  const statsBar = document.querySelector('.stats-bar');
+  if (statsBar) statsObserver.observe(statsBar);
+</script>
+</body>
+</html>
